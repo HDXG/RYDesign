@@ -1,10 +1,10 @@
-﻿using Volo.Abp.AspNetCore;
+﻿using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 
 namespace RYDesign.AspNetCore;
 
 [DependsOn(
-         typeof(AbpAspNetCoreModule)
+         typeof(AbpAspNetCoreMvcModule)
         )]
 public class RYDesignAspNetCoreModule : AbpModule
 {

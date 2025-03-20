@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frameWork", "frameWork", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -12,6 +12,24 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RYDesign.EntityFrameworkCore", "frameWork\RYDesign.EntityFrameworkCore\RYDesign.EntityFrameworkCore.csproj", "{3EB30682-0580-4114-9C45-20A577D599D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RYDesign.AspNetCore", "frameWork\RYDesign.AspNetCore\RYDesign.AspNetCore.csproj", "{0F0D2BF7-DBA6-4A7E-8F1B-10A1BAEAF184}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{7C7A7872-2DAA-42D8-A327-CF6C0D41BB7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SystemManagement", "SystemManagement", "{FE9FDF8F-FFE0-4474-A6E8-9F5A9B0E2BC8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{74257FCA-2BC0-43D1-AC55-03674C41D7BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5AB55E34-0B33-4CBE-BF00-EF3CCC9BE798}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement.Domain", "modules\SystemManagement\src\SystemManagement.Domain\SystemManagement.Domain.csproj", "{AB6DDC46-C316-4FDB-BB41-01519682DA59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement.AppService", "modules\SystemManagement\src\SystemManagement.AppService\SystemManagement.AppService.csproj", "{D529D063-B0B8-44ED-94DC-D1C9BEFCE933}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement.Infrastructure", "modules\SystemManagement\src\SystemManagement.Infrastructure\SystemManagement.Infrastructure.csproj", "{85006499-B087-420A-B1F7-156C5B3D1456}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement.HttpApi", "modules\SystemManagement\src\SystemManagement.HttpApi\SystemManagement.HttpApi.csproj", "{607E6783-9209-4174-8FB8-607E98056447}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement.Host", "modules\SystemManagement\host\SystemManagement.Host\SystemManagement.Host.csproj", "{945B7BA4-483C-4771-A1F3-D701535DB73C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +53,26 @@ Global
 		{0F0D2BF7-DBA6-4A7E-8F1B-10A1BAEAF184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F0D2BF7-DBA6-4A7E-8F1B-10A1BAEAF184}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F0D2BF7-DBA6-4A7E-8F1B-10A1BAEAF184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB6DDC46-C316-4FDB-BB41-01519682DA59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6DDC46-C316-4FDB-BB41-01519682DA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6DDC46-C316-4FDB-BB41-01519682DA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6DDC46-C316-4FDB-BB41-01519682DA59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D529D063-B0B8-44ED-94DC-D1C9BEFCE933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D529D063-B0B8-44ED-94DC-D1C9BEFCE933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D529D063-B0B8-44ED-94DC-D1C9BEFCE933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D529D063-B0B8-44ED-94DC-D1C9BEFCE933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85006499-B087-420A-B1F7-156C5B3D1456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85006499-B087-420A-B1F7-156C5B3D1456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85006499-B087-420A-B1F7-156C5B3D1456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85006499-B087-420A-B1F7-156C5B3D1456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{607E6783-9209-4174-8FB8-607E98056447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{607E6783-9209-4174-8FB8-607E98056447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{607E6783-9209-4174-8FB8-607E98056447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{607E6783-9209-4174-8FB8-607E98056447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{945B7BA4-483C-4771-A1F3-D701535DB73C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{945B7BA4-483C-4771-A1F3-D701535DB73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{945B7BA4-483C-4771-A1F3-D701535DB73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{945B7BA4-483C-4771-A1F3-D701535DB73C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +82,14 @@ Global
 		{4851A979-5734-4804-8F4D-9A194D8F1074} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{3EB30682-0580-4114-9C45-20A577D599D9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{0F0D2BF7-DBA6-4A7E-8F1B-10A1BAEAF184} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FE9FDF8F-FFE0-4474-A6E8-9F5A9B0E2BC8} = {7C7A7872-2DAA-42D8-A327-CF6C0D41BB7A}
+		{74257FCA-2BC0-43D1-AC55-03674C41D7BE} = {FE9FDF8F-FFE0-4474-A6E8-9F5A9B0E2BC8}
+		{5AB55E34-0B33-4CBE-BF00-EF3CCC9BE798} = {FE9FDF8F-FFE0-4474-A6E8-9F5A9B0E2BC8}
+		{AB6DDC46-C316-4FDB-BB41-01519682DA59} = {5AB55E34-0B33-4CBE-BF00-EF3CCC9BE798}
+		{D529D063-B0B8-44ED-94DC-D1C9BEFCE933} = {5AB55E34-0B33-4CBE-BF00-EF3CCC9BE798}
+		{85006499-B087-420A-B1F7-156C5B3D1456} = {5AB55E34-0B33-4CBE-BF00-EF3CCC9BE798}
+		{607E6783-9209-4174-8FB8-607E98056447} = {5AB55E34-0B33-4CBE-BF00-EF3CCC9BE798}
+		{945B7BA4-483C-4771-A1F3-D701535DB73C} = {74257FCA-2BC0-43D1-AC55-03674C41D7BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D87D5D3B-5D31-4A94-A877-B443EF59920B}
