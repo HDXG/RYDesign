@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\frameWork\RYDesign.EntityFrameworkCore\RYDesign.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\SystemManagement.AppService\SystemManagement.AppService.csproj" />
     <ProjectReference Include="..\SystemManagement.Domain\SystemManagement.Domain.csproj" />
   </ItemGroup>
 

@@ -1,17 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SystemManagement.Domain;
+using SystemManagement.Domain.SystemMenus;
+using SystemManagement.Domain.SystemUsers;
+using Volo.Abp;
 
 namespace SystemManagement.Infrastructure.EntityFrameworkCore
 {
     public static class SystemManagementDbContextModelCreatingExtensions
     {
-        public static void ConfigureProjectName(this ModelBuilder modelBuilder)
+        public static void ConfigureProjectName(this ModelBuilder builder)
         {
+            Check.NotNull(builder, nameof(builder));
 
+            builder.Entity<System_User>(a => {
+                a.ToTable("SystemUser", SystemManagemementConsts.DbSchemaName);
+                a.HasKey(b => b.Id);
+                
+            });
+
+            builder.Entity<System_Menu>(a =>
+            {
+                a.ToTable("SystemMenu", SystemManagemementConsts.DbSchemaName);
+                a.HasKey(b => b.Id);
+                a.HasMany(c => c.SubMenus).WithOne().HasForeignKey("ParentId").OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

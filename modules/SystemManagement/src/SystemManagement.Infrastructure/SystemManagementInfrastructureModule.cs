@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RYDesign.EntityFrameworkCore;
-using SystemManagement.AppService;
 using SystemManagement.Domain;
 using SystemManagement.Infrastructure.EntityFrameworkCore;
 using Volo.Abp.Modularity;
@@ -8,7 +7,6 @@ using Volo.Abp.Modularity;
 namespace SystemManagement.Infrastructure
 {
     [DependsOn(
-        typeof(SystemManagementAppServiceModule),
         typeof(SystemManagemementDomainModule),
         typeof(RYDesignEntityFrameworkCoreModule)
         )]

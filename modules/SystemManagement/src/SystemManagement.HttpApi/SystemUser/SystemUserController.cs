@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RYDesign.AspNetCore;
+using SystemManagement.AppService.SystemUsers;
+using SystemManagement.AppService.SystemUsers.Dtos;
 using SystemManagement.Domain;
 
 namespace SystemManagement.HttpApi.SystemUser
@@ -10,13 +12,19 @@ namespace SystemManagement.HttpApi.SystemUser
     [ApiController]
     [Route("api/SystemManagement/[controller]/[action]")]
     [Area(SystemManagemementConsts.ApplicationName)]
-    public class SystemUserController : RYDesignControllerBase
+    public class SystemUserController(ISystemUserAppServicce systemUserAppServicce)
+        : RYDesignControllerBase
     {
+
         /// <summary>
-        /// 测试内容
+        /// 创建用户
         /// </summary>
+        /// <param name="input"></param>
         /// <returns></returns>
-        [HttpGet]
-        public string GetDemo() => "123456";
+        [HttpPost]
+        public Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input)
+        {
+            return systemUserAppServicce.CreateSystemUserAsync(input);
+        }
     }
 }

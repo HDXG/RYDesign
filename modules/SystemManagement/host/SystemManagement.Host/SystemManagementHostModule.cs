@@ -34,8 +34,9 @@ namespace SystemManagement.Host
                     {
                         dbConfigContext.DbContextOptions.LogTo(Serilog.Log.Information, new[] { DbLoggerCategory.Database.Command.Name }).EnableSensitiveDataLogging();
                     }
-                    
+                    dbConfigContext.UseSqlServer();
                 });
+                
             });
 
             // 日志
