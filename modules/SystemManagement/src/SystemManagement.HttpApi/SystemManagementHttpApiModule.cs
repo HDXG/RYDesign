@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RYDesign.AspNetCore;
+using RYDesign.HttpApi;
 using SystemManagement.AppService;
 using SystemManagement.Infrastructure;
 using Volo.Abp.Modularity;
@@ -10,8 +10,7 @@ namespace SystemManagement.HttpApi
     [DependsOn(
         typeof(SystemManagementAppServiceModule),
         typeof(SystemManagementInfrastructureModule),
-        typeof(SystemManagementAppServiceModule),
-        typeof(RYDesignAspNetCoreModule)
+        typeof(RYDesignHttpApiModule)
         
         )]
     public class SystemManagementHttpApiModule: AbpModule

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\frameWork\RYDesign.Application\RYDesign.Application.csproj" />
-    <ProjectReference Include="..\SystemManagement.Infrastructure\SystemManagement.Infrastructure.csproj" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RYDesign.Application.Contracts\RYDesign.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

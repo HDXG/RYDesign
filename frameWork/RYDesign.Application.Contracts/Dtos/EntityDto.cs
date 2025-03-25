@@ -1,4 +1,4 @@
-﻿namespace RYDesign.AppService
+﻿namespace RYDesign.Application.Contracts.Dtos
 {
     public class EntityDto<TKey>
     {
