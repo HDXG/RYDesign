@@ -18,6 +18,28 @@ namespace SystemManagement.HttpApi.SystemMenus
     {
 
         /// <summary>
+        /// 返回菜单列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<GetSystemMenuListResponseDto> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
+        {
+            return systemMenuAppService.GetSystemMenuListAsync(input);
+        }
+
+        /// <summary>
+        /// 查询菜单信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
+        {
+            return systemMenuAppService.GetSystemMenuAsync(id);
+        }
+
+        /// <summary>
         /// 创建菜单
         /// </summary>
         /// <param name="input"></param>
@@ -26,6 +48,17 @@ namespace SystemManagement.HttpApi.SystemMenus
         public Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input)
         {
             return systemMenuAppService.CreateSystemMenuAsync(input);
+        }
+
+        /// <summary>
+        /// 删除菜单内容
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<bool> DeleteSystemMenuAsync(Guid id)
+        {
+            return systemMenuAppService.DeleteSystemMenuAsync(id);
         }
     }
 }

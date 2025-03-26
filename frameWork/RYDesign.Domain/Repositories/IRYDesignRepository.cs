@@ -35,4 +35,5 @@ public interface IRYDesignRepository<TEntity, TKey> : IRepository<TEntity, TKey>
         Expression<Func<TEntity, bool>> wherePredicate,
         Expression<Func<TEntity, IEnumerable<TEntity>>> includePredicate);
 
+
 }

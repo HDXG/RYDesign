@@ -1,14 +1,17 @@
-﻿using RYDesign.Application.Contracts.Service;
+﻿using Microsoft.EntityFrameworkCore;
+using RYDesign.Application.Contracts.Service;
 using RYDesign.Application.Service;
 using SystemManagement.AppService.SystemMenus.Dtos;
 using SystemManagement.Domain.SystemMenus;
 using SystemManagement.Infrastructure.Repositories.SystemMenus;
-using Volo.Abp.Guids;
+using Volo.Abp.Domain.Repositories;
 
 namespace SystemManagement.AppService.SystemMenus
 {
     public interface ISystemMenuAppService : IRYDesignAppService
     {
+        
+        Task<GetSystemMenuListResponseDto> GetSystemMenuListAsync(GetSystemMenuListInputDto input);
 
         /// <summary>
         /// 查询菜单信息
@@ -24,7 +27,6 @@ namespace SystemManagement.AppService.SystemMenus
         /// <returns></returns>
         Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input);
 
-
         /// <summary>
         /// 删除菜单内容
         /// </summary>
@@ -37,6 +39,34 @@ namespace SystemManagement.AppService.SystemMenus
     public class SystemMenuAppService
         (ISysetemMenuRepository systemMenuRepository) : RYDesignAppService, ISystemMenuAppService
     {
+
+
+        public async Task<GetSystemMenuListResponseDto> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
+        {
+            var queryable = (await systemMenuRepository.GetQueryableAsync())
+                .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName))
+                .WhereIf(!string.IsNullOrEmpty(input.MenuPath), x => x.MenuPath.Contains(input.MenuPath));
+
+            var count =await queryable.LongCountAsync();
+
+            var entity = await queryable.PageBy(input.SkipCount, input.MaxResultCount).ToListAsync();
+
+            var entityPart = entity.Where(x => x.ParentId == null).ToList();
+            if (entity.Count > 0 && entityPart.Count > 0)
+            {
+                List<SystemMenuDto> systemMenuDtos = new List<SystemMenuDto>();
+                foreach (var systemMenu in entityPart)
+                {
+                    systemMenuDtos.Add(SystemMenuSumMenusList(systemMenu));
+                }
+                return new GetSystemMenuListResponseDto()
+                {
+                    Items = systemMenuDtos,
+                    TotalCount = count
+                };
+            }
+            return new GetSystemMenuListResponseDto(0,new List<SystemMenuDto>());
+        }
 
         public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
         {
@@ -128,5 +158,7 @@ namespace SystemManagement.AppService.SystemMenus
         {
             return await systemMenuRepository.DeleteAsync(await systemMenuRepository.GetIncludeAsync(x => x.Id == id, x => x.SubMenus));
         }
+
+        
     }
 }
