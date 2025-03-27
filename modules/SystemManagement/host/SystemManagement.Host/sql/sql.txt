@@ -6,6 +6,7 @@ PassWord nvarchar(20),
 IsStatus bit
 )
 EXECUTE sp_addextendedproperty N'MS_Description', N'系统用户表', N'user', N'dbo', N'table', N'SystemUser', NULL, NULL  
+EXECUTE sp_addextendedproperty N'MS_Description', N'Id主键', N'user', N'dbo', N'table', N'SystemUser', N'column', N'Id'
 EXECUTE sp_addextendedproperty N'MS_Description', N'用户名', N'user', N'dbo', N'table', N'SystemUser', N'column', N'UserName'
 EXECUTE sp_addextendedproperty N'MS_Description', N'账号', N'user', N'dbo', N'table', N'SystemUser', N'column', N'AccountNumber'
 EXECUTE sp_addextendedproperty N'MS_Description', N'密码', N'user', N'dbo', N'table', N'SystemUser', N'column', N'PassWord'
@@ -27,6 +28,7 @@ OrderIndex int,
 IsStatus bit
 )
 EXECUTE sp_addextendedproperty N'MS_Description', N'系统菜单表', N'user', N'dbo', N'table', N'SystemMenu', NULL, NULL  
+EXECUTE sp_addextendedproperty N'MS_Description', N'Id主键', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'Id'
 EXECUTE sp_addextendedproperty N'MS_Description', N'菜单/按钮 名称', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'MenuName'
 EXECUTE sp_addextendedproperty N'MS_Description', N'父级ID', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'ParentId'
 EXECUTE sp_addextendedproperty N'MS_Description', N'菜单路径', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'MenuPath'
@@ -38,3 +40,18 @@ EXECUTE sp_addextendedproperty N'MS_Description', N'是否外链', N'user', N'db
 EXECUTE sp_addextendedproperty N'MS_Description', N'备注描述或者说明', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'Remark'
 EXECUTE sp_addextendedproperty N'MS_Description', N'排序', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'OrderIndex'
 EXECUTE sp_addextendedproperty N'MS_Description', N'状态  启用/禁用', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'IsStatus'
+
+
+create table SystemUserRole(
+Id uniqueidentifier PRIMARY KEY,
+UserId uniqueidentifier,
+RoleId uniqueidentifier,
+RoleName nvarchar(30),
+IsEnable bit
+)
+EXECUTE sp_addextendedproperty N'MS_Description', N'系统用户角色表', N'user', N'dbo', N'table', N'SystemUserRole', NULL, NULL  
+EXECUTE sp_addextendedproperty N'MS_Description', N'Id主键', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'Id'
+EXECUTE sp_addextendedproperty N'MS_Description', N'用户Id', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'UserId'
+EXECUTE sp_addextendedproperty N'MS_Description', N'角色Id', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'RoleId'
+EXECUTE sp_addextendedproperty N'MS_Description', N'角色名称', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'RoleName'
+EXECUTE sp_addextendedproperty N'MS_Description', N'是否启用', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'IsEnable'

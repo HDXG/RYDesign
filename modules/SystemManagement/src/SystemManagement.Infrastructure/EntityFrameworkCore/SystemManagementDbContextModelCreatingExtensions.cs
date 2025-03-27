@@ -15,7 +15,20 @@ namespace SystemManagement.Infrastructure.EntityFrameworkCore
             builder.Entity<System_User>(a => {
                 a.ToTable("SystemUser", SystemManagemementConsts.DbSchemaName);
                 a.HasKey(b => b.Id);
-                
+
+                a.HasMany(e => e.system_UserRoles)
+                 .WithOne()
+                 .HasPrincipalKey(e => e.Id)
+                 .HasForeignKey(a => a.UserId)
+                 .IsRequired();
+
+            });
+
+            builder.Entity<System_UserRole>(b =>
+            {
+                b.ToTable("SystemUserRole", SystemManagemementConsts.DbSchemaName);
+
+                b.HasKey(c => new { c.UserId, c.RoleId });
             });
 
             builder.Entity<System_Menu>(a =>

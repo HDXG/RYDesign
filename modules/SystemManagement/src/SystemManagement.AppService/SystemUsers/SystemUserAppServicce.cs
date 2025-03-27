@@ -28,7 +28,13 @@ namespace SystemManagement.AppService.SystemUsers
         /// <returns></returns>
         public async Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input)
         {
-            System_User system_User = new System_User(GuidGenerator.Create(), input.AccountNumber, input.PassWord, input.UserName, true);
+            Guid UserId = GuidGenerator.Create();
+            System_User system_User = new System_User(UserId, input.AccountNumber, input.PassWord, input.UserName, true);
+
+            foreach (var item in input.CreateUserRoles)
+            {
+                system_User.AddRole(new System_UserRole(GuidGenerator.Create(), UserId, item.RoleId, item.RoleName));
+            }
 
             await systemUserRepository.InsertAsync(system_User);
             return true;

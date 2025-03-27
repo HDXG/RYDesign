@@ -2,15 +2,10 @@
 
 namespace SystemManagement.AppService.SystemUsers.Dtos
 {
-    public class CreateSystemUserInputDto
-    {
-        public string UserName { get; set; }
+   
+    public record CreateSystemUserInputDto(string UserName,string AccountNumber,string PassWord, CreateUserRoleDto[] CreateUserRoles);
 
-        public string AccountNumber { get; set; }
-
-        public string PassWord { get; set; }
-
-    }
+    public record CreateUserRoleDto(Guid RoleId,string RoleName);
 
     public class CreateSystemUserInputDtoValidator : AbstractValidator<CreateSystemUserInputDto>
     {

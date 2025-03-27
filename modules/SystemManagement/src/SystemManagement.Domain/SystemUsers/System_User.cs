@@ -5,7 +5,7 @@ namespace SystemManagement.Domain.SystemUsers
 {
     public  class System_User : Entity<Guid>
     {
-        public System_User() { }
+        protected System_User() { }
 
         public System_User(Guid id, string accountNumber, string passWord, string userName, bool isStatus)
             :base(id)
@@ -52,6 +52,19 @@ namespace SystemManagement.Domain.SystemUsers
         {
             isStatus=Check.NotNull<bool>(isStatus, "IsStatus");
             IsStatus = isStatus;
+        }
+
+
+        public ICollection<System_UserRole> system_UserRoles = new List<System_UserRole>();
+
+
+        public void AddRole(System_UserRole role)
+        {
+            // 不存在就添加
+            if (!system_UserRoles.Any(x => x.RoleName == role.RoleName && x.RoleId == role.RoleId))
+            {
+                system_UserRoles.Add(role);
+            }
         }
 
     }

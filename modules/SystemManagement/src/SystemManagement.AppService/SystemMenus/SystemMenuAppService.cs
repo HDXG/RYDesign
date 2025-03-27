@@ -47,9 +47,7 @@ namespace SystemManagement.AppService.SystemMenus
                 .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName))
                 .WhereIf(!string.IsNullOrEmpty(input.MenuPath), x => x.MenuPath.Contains(input.MenuPath));
 
-            var count =await queryable.LongCountAsync();
-
-            var entity = await queryable.PageBy(input.SkipCount, input.MaxResultCount).ToListAsync();
+            var entity = await queryable.ToListAsync();
 
             var entityPart = entity.Where(x => x.ParentId == null).ToList();
             if (entity.Count > 0 && entityPart.Count > 0)
@@ -59,9 +57,11 @@ namespace SystemManagement.AppService.SystemMenus
                 {
                     systemMenuDtos.Add(SystemMenuSumMenusList(systemMenu));
                 }
+                int count = systemMenuDtos.Count;
+
                 return new GetSystemMenuListResponseDto()
                 {
-                    Items = systemMenuDtos,
+                    Items = systemMenuDtos.Skip(input.SkipCount).Take(input.MaxResultCount).ToList(),
                     TotalCount = count
                 };
             }
