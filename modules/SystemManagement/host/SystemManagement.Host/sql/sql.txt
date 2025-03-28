@@ -55,3 +55,16 @@ EXECUTE sp_addextendedproperty N'MS_Description', N'用户Id', N'user', N'dbo', 
 EXECUTE sp_addextendedproperty N'MS_Description', N'角色Id', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'RoleId'
 EXECUTE sp_addextendedproperty N'MS_Description', N'角色名称', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'RoleName'
 EXECUTE sp_addextendedproperty N'MS_Description', N'是否启用', N'user', N'dbo', N'table', N'SystemUserRole', N'column', N'IsEnable'
+
+
+create table SystemRole(
+Id uniqueidentifier PRIMARY KEY,
+RoleName nvarchar(30),
+Describe nvarchar(100),
+IsStatus bit
+)
+EXECUTE sp_addextendedproperty N'MS_Description', N'系统用户角色表', N'user', N'dbo', N'table', N'SystemRole', NULL, NULL  
+EXECUTE sp_addextendedproperty N'MS_Description', N'Id主键', N'user', N'dbo', N'table', N'SystemRole', N'column', N'Id'
+EXECUTE sp_addextendedproperty N'MS_Description', N'角色名称', N'user', N'dbo', N'table', N'SystemRole', N'column', N'RoleName'
+EXECUTE sp_addextendedproperty N'MS_Description', N'角色说明', N'user', N'dbo', N'table', N'SystemRole', N'column', N'Describe'
+EXECUTE sp_addextendedproperty N'MS_Description', N'状态  启用/禁用', N'user', N'dbo', N'table', N'SystemRole', N'column', N'IsStatus'

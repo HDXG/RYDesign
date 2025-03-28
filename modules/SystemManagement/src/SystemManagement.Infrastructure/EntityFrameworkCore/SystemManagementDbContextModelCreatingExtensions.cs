@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SystemManagement.Domain;
 using SystemManagement.Domain.SystemMenus;
+using SystemManagement.Domain.SystemRoles;
 using SystemManagement.Domain.SystemUsers;
 using Volo.Abp;
 
@@ -22,6 +23,12 @@ namespace SystemManagement.Infrastructure.EntityFrameworkCore
                  .HasForeignKey(a => a.UserId)
                  .IsRequired();
 
+            });
+
+            builder.Entity<System_Role>(a =>
+            {
+                a.ToTable("", SystemManagemementConsts.DbSchemaName);
+                a.HasKey(c => c.Id);
             });
 
             builder.Entity<System_UserRole>(b =>
