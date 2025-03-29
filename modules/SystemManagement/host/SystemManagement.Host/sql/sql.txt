@@ -61,10 +61,16 @@ create table SystemRole(
 Id uniqueidentifier PRIMARY KEY,
 RoleName nvarchar(30),
 Describe nvarchar(100),
-IsStatus bit
+IsStatus bit,
+OrderIndex int,
+IsDefault bit,
+CreateTime datetime,
 )
 EXECUTE sp_addextendedproperty N'MS_Description', N'系统用户角色表', N'user', N'dbo', N'table', N'SystemRole', NULL, NULL  
 EXECUTE sp_addextendedproperty N'MS_Description', N'Id主键', N'user', N'dbo', N'table', N'SystemRole', N'column', N'Id'
 EXECUTE sp_addextendedproperty N'MS_Description', N'角色名称', N'user', N'dbo', N'table', N'SystemRole', N'column', N'RoleName'
 EXECUTE sp_addextendedproperty N'MS_Description', N'角色说明', N'user', N'dbo', N'table', N'SystemRole', N'column', N'Describe'
 EXECUTE sp_addextendedproperty N'MS_Description', N'状态  启用/禁用', N'user', N'dbo', N'table', N'SystemRole', N'column', N'IsStatus'
+EXECUTE sp_addextendedproperty N'MS_Description', N'显示顺序', N'user', N'dbo', N'table', N'SystemRole', N'column', N'OrderIndex'
+EXECUTE sp_addextendedproperty N'MS_Description', N'是否默认角色', N'user', N'dbo', N'table', N'SystemRole', N'column', N'IsDefault'
+EXECUTE sp_addextendedproperty N'MS_Description', N'创建时间', N'user', N'dbo', N'table', N'SystemRole', N'column', N'CreateTime'

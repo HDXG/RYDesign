@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RYDesign.AspNetCore;
 using SystemManagement.AppService.SystemUsers;
 using SystemManagement.AppService.SystemUsers.Dtos;
 using SystemManagement.Domain;
 
-namespace SystemManagement.HttpApi.SystemUser
+namespace SystemManagement.HttpApi.SystemUsers
 {
     /// <summary>
     /// 用户内容
@@ -27,6 +26,17 @@ namespace SystemManagement.HttpApi.SystemUser
         public  Task<GetSystemUserPagedListResponse> GetSystemUserPagedListAsync([FromBody]   GetSystemUserPagedListInputDto input, CancellationToken cancellationToken)
         {
             return systemUserAppServicce.GetSystemUserPagedListAsync(input, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<GetSystemUserResponse> GetSystemUserAsync([FromBody]Guid id)
+        {
+            return systemUserAppServicce.GetSystemUserAsync(id);
         }
 
         /// <summary>

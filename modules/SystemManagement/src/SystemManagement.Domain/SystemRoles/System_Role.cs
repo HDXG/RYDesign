@@ -10,11 +10,14 @@ namespace SystemManagement.Domain.SystemRoles
 
         }
 
-        public System_Role(Guid Id,string roleName,string describe) :base(Id)
+        public System_Role(Guid Id,string roleName,string describe,int orderIndex,bool isDefault) :base(Id)
         {
             SetStatusToTrue();
             ChangeRoleName(roleName);
             ChangeDescribe(describe);
+            OrderIndex = orderIndex;
+            IsDefault = isDefault;
+            CreateTime = DateTime.Now;
         }
 
         /// <summary>
@@ -34,6 +37,25 @@ namespace SystemManagement.Domain.SystemRoles
         {
             Describe = Check.NotNullOrWhiteSpace(describe, "Describe");
         }
+
+        
+
+        /// <summary>
+        /// 是否默认角色
+        /// </summary>
+
+        public bool IsDefault { get; set; }
+
+        /// <summary>
+        /// 显示顺序
+        /// </summary>
+        public int OrderIndex { get; set; }
+
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 状态  启用/禁用

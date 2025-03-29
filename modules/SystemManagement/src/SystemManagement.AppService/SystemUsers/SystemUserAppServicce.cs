@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
+﻿using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using RYDesign.Application.Contracts.Service;
 using RYDesign.Application.Service;
@@ -21,6 +19,9 @@ namespace SystemManagement.AppService.SystemUsers
         /// <param name="input"></param>
         /// <returns></returns>
         Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input);
+
+        Task<GetSystemUserResponse> GetSystemUserAsync(Guid id);
+
     }
 
 
@@ -45,6 +46,33 @@ namespace SystemManagement.AppService.SystemUsers
             await systemUserRepository.InsertAsync(system_User);
             return true;
 
+        }
+
+        /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<GetSystemUserResponse> GetSystemUserAsync(Guid id)
+        {
+            var querable = (await systemUserRepository.GetQueryableAsync())
+                .Include(x=>x.system_UserRoles)
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+            if(querable == null)
+            {
+                return new GetSystemUserResponse();
+            }
+
+            return new GetSystemUserResponse()
+            {
+                AccountNumber = querable.AccountNumber,
+                UserName = querable.UserName,
+                Roles = querable.system_UserRoles.Select(x => new SystemUserRoleDto(x.RoleId,x.RoleName)).ToArray(),
+                Id = querable.Id
+            };
         }
 
 
