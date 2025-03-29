@@ -27,7 +27,7 @@ namespace SystemManagement.Infrastructure.EntityFrameworkCore
 
             builder.Entity<System_Role>(a =>
             {
-                a.ToTable("", SystemManagemementConsts.DbSchemaName);
+                a.ToTable("SystemRole", SystemManagemementConsts.DbSchemaName);
                 a.HasKey(c => c.Id);
             });
 

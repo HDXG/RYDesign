@@ -23,7 +23,7 @@ namespace SystemManagement.HttpApi.SystemMenus
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<GetSystemMenuListResponseDto> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
+        public Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
         {
             return systemMenuAppService.GetSystemMenuListAsync(input);
         }

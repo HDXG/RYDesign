@@ -11,7 +11,7 @@ namespace SystemManagement.AppService.SystemMenus
     public interface ISystemMenuAppService : IRYDesignAppService
     {
         
-        Task<GetSystemMenuListResponseDto> GetSystemMenuListAsync(GetSystemMenuListInputDto input);
+        Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input);
 
         /// <summary>
         /// 查询菜单信息
@@ -41,9 +41,10 @@ namespace SystemManagement.AppService.SystemMenus
     {
 
 
-        public async Task<GetSystemMenuListResponseDto> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
+        public async Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
         {
             var queryable = (await systemMenuRepository.GetQueryableAsync())
+                .AsNoTracking()
                 .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName))
                 .WhereIf(!string.IsNullOrEmpty(input.MenuPath), x => x.MenuPath.Contains(input.MenuPath));
 
@@ -59,13 +60,17 @@ namespace SystemManagement.AppService.SystemMenus
                 }
                 int count = systemMenuDtos.Count;
 
-                return new GetSystemMenuListResponseDto()
+                return new GetSystemMenuListResponse()
                 {
                     Items = systemMenuDtos.Skip(input.SkipCount).Take(input.MaxResultCount).ToList(),
                     TotalCount = count
                 };
             }
-            return new GetSystemMenuListResponseDto(0,new List<SystemMenuDto>());
+            return new GetSystemMenuListResponse()
+            {
+                Items = new List<SystemMenuDto>(),
+                TotalCount = 0
+            };
         }
 
         public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id)

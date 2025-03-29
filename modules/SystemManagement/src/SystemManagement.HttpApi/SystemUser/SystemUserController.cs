@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RYDesign.AspNetCore;
 using SystemManagement.AppService.SystemUsers;
 using SystemManagement.AppService.SystemUsers.Dtos;
@@ -15,6 +16,18 @@ namespace SystemManagement.HttpApi.SystemUser
     public class SystemUserController(ISystemUserAppServicce systemUserAppServicce)
         : RYDesignControllerBase
     {
+
+        /// <summary>
+        /// 获取用户分页列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public  Task<GetSystemUserPagedListResponse> GetSystemUserPagedListAsync([FromBody]   GetSystemUserPagedListInputDto input, CancellationToken cancellationToken)
+        {
+            return systemUserAppServicce.GetSystemUserPagedListAsync(input, cancellationToken);
+        }
 
         /// <summary>
         /// 创建用户

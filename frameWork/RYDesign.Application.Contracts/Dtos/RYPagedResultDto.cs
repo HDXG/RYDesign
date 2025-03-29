@@ -12,7 +12,7 @@ namespace RYDesign.Application.Contracts.Dtos
         public RYPagedResultDto(long totalCount, IReadOnlyList<TDto> items)
             : base(totalCount, items)
         {
-
+           
         }
     }
 }

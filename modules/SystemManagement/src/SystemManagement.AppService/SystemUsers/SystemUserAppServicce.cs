@@ -1,4 +1,8 @@
-﻿using RYDesign.Application.Contracts.Service;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
+using RYDesign.Application.Contracts.Service;
 using RYDesign.Application.Service;
 using SystemManagement.AppService.SystemUsers.Dtos;
 using SystemManagement.Domain.SystemUsers;
@@ -8,6 +12,8 @@ namespace SystemManagement.AppService.SystemUsers
 {
     public interface ISystemUserAppServicce:IRYDesignAppService
     {
+
+        Task<GetSystemUserPagedListResponse> GetSystemUserPagedListAsync(GetSystemUserPagedListInputDto input, CancellationToken cancellationToken);
 
         /// <summary>
         /// 创建用户
@@ -39,6 +45,42 @@ namespace SystemManagement.AppService.SystemUsers
             await systemUserRepository.InsertAsync(system_User);
             return true;
 
+        }
+
+
+        /// <summary>
+        /// 获取用户分页列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<GetSystemUserPagedListResponse> GetSystemUserPagedListAsync(GetSystemUserPagedListInputDto input, CancellationToken cancellationToken)
+        {
+            var queryable = (await systemUserRepository.GetQueryableAsync())
+                .Include(x => x.system_UserRoles)
+                .AsNoTracking()
+                .WhereIf(!string.IsNullOrEmpty(input.UserName), x => x.UserName.Contains(input.UserName))
+                .WhereIf(!string.IsNullOrEmpty(input.RoleName),x=>x.system_UserRoles.Any(a=>a.RoleName.Contains(input.RoleName)));
+
+            var count = await queryable.LongCountAsync(cancellationToken);
+
+            var items = await queryable
+                .OrderBy(x=>x.Id)
+                .PageBy(input.SkipCount, input.MaxResultCount)
+                .Select(x => new GetSystemUserPagedListDto()
+                {
+                    Id = x.Id,
+                    UserName = x.UserName,
+                    AccountNumber = x.AccountNumber,
+                    IsStatus = x.IsStatus,
+                    RoleName = string.Join(',', x.system_UserRoles.Select(x => x.RoleName).ToArray())
+                })
+                .ToListAsync(cancellationToken);
+            return new GetSystemUserPagedListResponse
+            {
+                TotalCount = count,
+                Items = items
+            };
         }
     }
 }
