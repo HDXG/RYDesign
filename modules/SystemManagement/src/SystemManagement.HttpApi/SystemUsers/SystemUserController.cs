@@ -20,12 +20,11 @@ namespace SystemManagement.HttpApi.SystemUsers
         /// 获取用户分页列表
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
-        public  Task<GetSystemUserPagedListResponse> GetSystemUserPagedListAsync([FromBody]   GetSystemUserPagedListInputDto input, CancellationToken cancellationToken)
+        public  Task<GetSystemUserPagedListResponse> GetSystemUserPagedListAsync([FromBody]   GetSystemUserPagedListInputDto input)
         {
-            return systemUserAppServicce.GetSystemUserPagedListAsync(input, cancellationToken);
+            return systemUserAppServicce.GetSystemUserPagedListAsync(input,HttpContext.RequestAborted);
         }
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace SystemManagement.HttpApi.SystemUsers
         [HttpPost]
         public Task<GetSystemUserResponse> GetSystemUserAsync([FromBody]Guid id)
         {
-            return systemUserAppServicce.GetSystemUserAsync(id);
+            return systemUserAppServicce.GetSystemUserAsync(id, HttpContext.RequestAborted);
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace SystemManagement.HttpApi.SystemUsers
         [HttpPost]
         public Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input)
         {
-            return systemUserAppServicce.CreateSystemUserAsync(input);
+            return systemUserAppServicce.CreateSystemUserAsync(input, HttpContext.RequestAborted);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SystemManagement.HttpApi.SystemMenus
         [HttpPost]
         public Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
         {
-            return systemMenuAppService.GetSystemMenuListAsync(input);
+            return systemMenuAppService.GetSystemMenuListAsync(input,HttpContext.RequestAborted);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace SystemManagement.HttpApi.SystemMenus
         [HttpPost]
         public Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
         {
-            return systemMenuAppService.GetSystemMenuAsync(id);
+            return systemMenuAppService.GetSystemMenuAsync(id, HttpContext.RequestAborted);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace SystemManagement.HttpApi.SystemMenus
         [HttpPost]
         public Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input)
         {
-            return systemMenuAppService.CreateSystemMenuAsync(input);
+            return systemMenuAppService.CreateSystemMenuAsync(input, HttpContext.RequestAborted);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace SystemManagement.HttpApi.SystemMenus
         [HttpPost]
         public Task<bool> DeleteSystemMenuAsync(Guid id)
         {
-            return systemMenuAppService.DeleteSystemMenuAsync(id);
+            return systemMenuAppService.DeleteSystemMenuAsync(id, HttpContext.RequestAborted);
         }
     }
 }

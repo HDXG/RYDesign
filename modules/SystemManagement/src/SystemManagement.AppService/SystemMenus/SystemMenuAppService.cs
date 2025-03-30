@@ -11,28 +11,28 @@ namespace SystemManagement.AppService.SystemMenus
     public interface ISystemMenuAppService : IRYDesignAppService
     {
         
-        Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input);
+        Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input, CancellationToken cancellationToken);
 
         /// <summary>
         /// 查询菜单信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<SystemMenuDto> GetSystemMenuAsync(Guid id);
+        Task<SystemMenuDto> GetSystemMenuAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// 创建菜单
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input);
+        Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input, CancellationToken cancellationToken);
 
         /// <summary>
         /// 删除菜单内容
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<bool> DeleteSystemMenuAsync(Guid id);
+        Task<bool> DeleteSystemMenuAsync(Guid id, CancellationToken cancellationToken);
     }
 
 
@@ -41,14 +41,14 @@ namespace SystemManagement.AppService.SystemMenus
     {
 
 
-        public async Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input)
+        public async Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input, CancellationToken cancellationToken)
         {
             var queryable = (await systemMenuRepository.GetQueryableAsync())
                 .AsNoTracking()
                 .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName))
                 .WhereIf(!string.IsNullOrEmpty(input.MenuPath), x => x.MenuPath.Contains(input.MenuPath));
 
-            var entity = await queryable.ToListAsync();
+            var entity = await queryable.ToListAsync(cancellationToken);
 
             var entityPart = entity.Where(x => x.ParentId == null).ToList();
             if (entity.Count > 0 && entityPart.Count > 0)
@@ -73,9 +73,10 @@ namespace SystemManagement.AppService.SystemMenus
             };
         }
 
-        public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
+        public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id
+            , CancellationToken cancellationToken)
         {
-            var entity = await systemMenuRepository.GetIncludeAsync(x => x.Id == id, x => x.SubMenus);
+            var entity = await systemMenuRepository.GetIncludeAsync(x => x.Id == id, x => x.SubMenus,cancellationToken);
             if (entity != null)
             {
                 SystemMenuDto sysMenuDto = SystemMenuSumMenusList(entity);
@@ -116,7 +117,7 @@ namespace SystemManagement.AppService.SystemMenus
             return sysMenuDto;
         }
 
-        public async Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input)
+        public async Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input, CancellationToken cancellationToken)
         {
             var systemMenu = CreateSystemMenu(input, null);
             await systemMenuRepository.InsertAsync(systemMenu);
@@ -159,9 +160,9 @@ namespace SystemManagement.AppService.SystemMenus
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteSystemMenuAsync(Guid id)
+        public async Task<bool> DeleteSystemMenuAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await systemMenuRepository.DeleteAsync(await systemMenuRepository.GetIncludeAsync(x => x.Id == id, x => x.SubMenus));
+            return await systemMenuRepository.DeleteAsync(await systemMenuRepository.GetIncludeAsync(x => x.Id == id, x => x.SubMenus, cancellationToken));
         }
 
         

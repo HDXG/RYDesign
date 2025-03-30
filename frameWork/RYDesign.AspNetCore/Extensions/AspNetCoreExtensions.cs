@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,8 @@ public static class AspNetCoreExtensions
             option.Filters.Add<HttpResponseExceptionFilter>();
             option.Filters.Add<HttpResponseSuccessFilter>();
         }).AddJsonOptions(options => {
+            
+
             options.JsonSerializerOptions.PropertyNamingPolicy = null;
             //空字段不响应Response
             options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -64,5 +67,7 @@ public static class AspNetCoreExtensions
         });
     }
 
-   
+
+  
+
 }

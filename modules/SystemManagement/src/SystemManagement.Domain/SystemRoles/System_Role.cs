@@ -52,10 +52,7 @@ namespace SystemManagement.Domain.SystemRoles
         public int OrderIndex { get; set; }
 
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; }
+        
 
         /// <summary>
         /// 状态  启用/禁用
@@ -71,6 +68,11 @@ namespace SystemManagement.Domain.SystemRoles
         {
             IsStatus = false;
         }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { get; set; }
 
 
     }

@@ -18,9 +18,9 @@ namespace SystemManagement.AppService.SystemUsers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input);
+        Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input, CancellationToken cancellationToken);
 
-        Task<GetSystemUserResponse> GetSystemUserAsync(Guid id);
+        Task<GetSystemUserResponse> GetSystemUserAsync(Guid id, CancellationToken cancellationToken);
 
     }
 
@@ -33,7 +33,7 @@ namespace SystemManagement.AppService.SystemUsers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input)
+        public async Task<bool> CreateSystemUserAsync(CreateSystemUserInputDto input, CancellationToken cancellationToken)
         {
             Guid UserId = GuidGenerator.Create();
             System_User system_User = new System_User(UserId, input.AccountNumber, input.PassWord, input.UserName, true);
@@ -43,7 +43,7 @@ namespace SystemManagement.AppService.SystemUsers
                 system_User.AddRole(new System_UserRole(GuidGenerator.Create(), UserId, item.RoleId, item.RoleName));
             }
 
-            await systemUserRepository.InsertAsync(system_User);
+            await systemUserRepository.InsertAsync(system_User,false, cancellationToken);
             return true;
 
         }
@@ -54,13 +54,13 @@ namespace SystemManagement.AppService.SystemUsers
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<GetSystemUserResponse> GetSystemUserAsync(Guid id)
+        public async Task<GetSystemUserResponse> GetSystemUserAsync(Guid id, CancellationToken cancellationToken)
         {
-            var querable = (await systemUserRepository.GetQueryableAsync())
+            var querable = await (await systemUserRepository.GetQueryableAsync())
                 .Include(x=>x.system_UserRoles)
                 .AsNoTracking()
                 .Where(x => x.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync(cancellationToken);
             if(querable == null)
             {
                 return new GetSystemUserResponse();
