@@ -21,21 +21,21 @@ namespace SystemManagement.Infrastructure.EntityFrameworkCore
                  .WithOne()
                  .HasPrincipalKey(e => e.Id)
                  .HasForeignKey(a => a.UserId)
-                 .IsRequired();
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Cascade); ;
 
+            });
+
+            builder.Entity<System_UserRole>(b =>
+            {
+                b.ToTable("SystemUserRole", SystemManagemementConsts.DbSchemaName);
+                b.HasKey(c => new { c.UserId, c.RoleId });
             });
 
             builder.Entity<System_Role>(a =>
             {
                 a.ToTable("SystemRole", SystemManagemementConsts.DbSchemaName);
                 a.HasKey(c => c.Id);
-            });
-
-            builder.Entity<System_UserRole>(b =>
-            {
-                b.ToTable("SystemUserRole", SystemManagemementConsts.DbSchemaName);
-
-                b.HasKey(c => new { c.UserId, c.RoleId });
             });
 
             builder.Entity<System_Menu>(a =>

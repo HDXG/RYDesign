@@ -28,13 +28,24 @@ namespace SystemManagement.HttpApi.SystemMenus
             return systemMenuAppService.GetSystemMenuListAsync(input,HttpContext.RequestAborted);
         }
 
+
+        /// <summary>
+        /// 返回菜单树
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<List<GetSystemMenuTreeResponse>> GetSystemMenuTreeResponseAsync()
+        {
+            return systemMenuAppService.GetSystemMenuTreeResponseAsync(HttpContext.RequestAborted);
+        }
+
         /// <summary>
         /// 查询菜单信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
+        public Task<SystemMenuDto> GetSystemMenuAsync([FromBody] Guid id)
         {
             return systemMenuAppService.GetSystemMenuAsync(id, HttpContext.RequestAborted);
         }

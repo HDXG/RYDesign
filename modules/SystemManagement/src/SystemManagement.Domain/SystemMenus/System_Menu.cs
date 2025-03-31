@@ -7,17 +7,17 @@ namespace SystemManagement.Domain.SystemMenus
     {
         public System_Menu() { }
 
-        public System_Menu(Guid id, string menuName, string menuPath, string icon, string permissionKey, string routeName, string componentPath, int orderIndex,string newRemark) : base(id)
+        public System_Menu(Guid id, string menuName, string menuPath,int menuType, string icon, string permissionKey, string routeName, string componentPath, int orderIndex,string newRemark) : base(id)
         {
             SetExternalLinkToFalse();
             SetStatusToTrue();
-
+            MenuType = menuType;
             ChangeMenuName(menuName);
             ChangeMenuPath(menuPath);
             ChangeIcon(icon);
-            ChangePermissionKey(permissionKey);
+            PermissionKey = permissionKey;
             ChangeComponentPath(componentPath);
-            ChangeRemark(newRemark);
+            Remark = newRemark;
             ChangeRouteName(routeName);
             ChangeOrderIndex(orderIndex);
         }
@@ -43,6 +43,10 @@ namespace SystemManagement.Domain.SystemMenus
             ParentId = newParentId;
         }
 
+        /// <summary>
+        /// 菜单类型 0目录 1菜单 2按钮
+        /// </summary>
+        public int MenuType { get; set; }
 
         /// <summary>
         ///  菜单路径
@@ -70,10 +74,6 @@ namespace SystemManagement.Domain.SystemMenus
         /// </summary>
         public string PermissionKey { get; private set; }
 
-        public void ChangePermissionKey(string newPermissionKey)
-        {
-            PermissionKey = Check.NotNullOrWhiteSpace(newPermissionKey, "PermissionKey");
-        }
 
         /// <summary>
         /// 组件路径
@@ -130,10 +130,7 @@ namespace SystemManagement.Domain.SystemMenus
         /// </summary>
         public string? Remark { get; private set; }
 
-        public void ChangeRemark(string newRemark)
-        {
-            Remark = Check.NotNullOrWhiteSpace(newRemark, "Remark");
-        }
+        
 
         /// <summary>
         /// 状态  启用/禁用

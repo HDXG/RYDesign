@@ -20,6 +20,11 @@ namespace SystemManagement.AppService.SystemMenus.Dtos
         public string MenuPath { get; set; }
 
         /// <summary>
+        /// 菜单类型 0目录 1菜单 2按钮
+        /// </summary>
+        public int MenuType { get; set; }
+
+        /// <summary>
         ///   图标
         /// </summary>
         public string Icon { get; set; }

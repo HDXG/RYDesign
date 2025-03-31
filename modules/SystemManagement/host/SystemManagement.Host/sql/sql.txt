@@ -17,6 +17,7 @@ create table SystemMenu(
 Id uniqueidentifier PRIMARY KEY,
 MenuName nvarchar(20),
 ParentId uniqueidentifier,
+MenuType int,
 MenuPath nvarchar(30),
 Icon nvarchar(10),
 PermissionKey nvarchar(20),
@@ -31,6 +32,7 @@ EXECUTE sp_addextendedproperty N'MS_Description', N'系统菜单表', N'user', N
 EXECUTE sp_addextendedproperty N'MS_Description', N'Id主键', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'Id'
 EXECUTE sp_addextendedproperty N'MS_Description', N'菜单/按钮 名称', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'MenuName'
 EXECUTE sp_addextendedproperty N'MS_Description', N'父级ID', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'ParentId'
+EXECUTE sp_addextendedproperty N'MS_Description', N'菜单类型 0目录 1菜单 2按钮', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'MenuType'
 EXECUTE sp_addextendedproperty N'MS_Description', N'菜单路径', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'MenuPath'
 EXECUTE sp_addextendedproperty N'MS_Description', N'图标', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'Icon'
 EXECUTE sp_addextendedproperty N'MS_Description', N'权限标识', N'user', N'dbo', N'table', N'SystemMenu', N'column', N'PermissionKey'

@@ -8,6 +8,8 @@ namespace SystemManagement.AppService.SystemMenus.Dtos
 
         public string MenuPath { get; set; }
 
+        public int MenuType { get; set; }
+
         public string Icon { get; set; }
 
         public string PermissionKey { get; set; }
@@ -38,9 +40,7 @@ namespace SystemManagement.AppService.SystemMenus.Dtos
             RuleFor(x => x.MenuName).Must(x => !x.IsNullOrWhiteSpace());
             RuleFor(x => x.MenuPath).Must(x => !x.IsNullOrWhiteSpace());
             RuleFor(x => x.Icon).Must(x => !x.IsNullOrWhiteSpace());
-            RuleFor(x => x.PermissionKey).Must(x => !x.IsNullOrWhiteSpace());
             RuleFor(x => x.ComponentPath).Must(x => !x.IsNullOrWhiteSpace());
-            RuleFor(x => x.Remark).Must(x => !x.IsNullOrWhiteSpace());
         }
     }
 }

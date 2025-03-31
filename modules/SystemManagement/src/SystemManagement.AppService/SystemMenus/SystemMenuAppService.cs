@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using RYDesign.Application.Contracts.Service;
 using RYDesign.Application.Service;
 using SystemManagement.AppService.SystemMenus.Dtos;
@@ -12,6 +13,8 @@ namespace SystemManagement.AppService.SystemMenus
     {
         
         Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input, CancellationToken cancellationToken);
+
+        Task<List<GetSystemMenuTreeResponse>> GetSystemMenuTreeResponseAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// 查询菜单信息
@@ -40,7 +43,12 @@ namespace SystemManagement.AppService.SystemMenus
         (ISysetemMenuRepository systemMenuRepository) : RYDesignAppService, ISystemMenuAppService
     {
 
-
+        /// <summary>
+        /// 菜单列表分页查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input, CancellationToken cancellationToken)
         {
             var queryable = (await systemMenuRepository.GetQueryableAsync())
@@ -73,6 +81,45 @@ namespace SystemManagement.AppService.SystemMenus
             };
         }
 
+
+        /// <summary>
+        /// 返回树形菜单内容
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<List<GetSystemMenuTreeResponse>> GetSystemMenuTreeResponseAsync(CancellationToken cancellationToken)
+        {
+            var queryable =await (await systemMenuRepository.GetQueryableAsync())
+                .AsNoTracking()
+                .Include(x => x.SubMenus)
+                .ThenInclude(x=> x.SubMenus)
+                .OrderBy(x => x.OrderIndex)
+                .ToListAsync();
+            return GetSystemMenuTreeResponseDto(queryable);
+        }
+
+        private List<GetSystemMenuTreeResponse> GetSystemMenuTreeResponseDto(List<System_Menu> list)
+        {
+            List<GetSystemMenuTreeResponse> getSystemMenuTree = new List<GetSystemMenuTreeResponse>();
+            foreach (var item in list)
+            {
+                getSystemMenuTree.Add(new GetSystemMenuTreeResponse()
+                {
+                    label = item.MenuName,
+                    value = item.Id.ToString(),
+                    children = GetSystemMenuTreeResponseDto(item.SubMenus.ToList())
+                });
+            }
+            return getSystemMenuTree;
+        }
+
+
+        /// <summary>
+        /// 查询单个菜单信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id
             , CancellationToken cancellationToken)
         {
@@ -97,6 +144,7 @@ namespace SystemManagement.AppService.SystemMenus
                 ParentId = entity.ParentId,
                 MenuPath = entity.MenuPath,
                 Icon = entity.Icon,
+                MenuType = entity.MenuType,
                 PermissionKey = entity.PermissionKey,
                 ComponentPath = entity.ComponentPath,
                 RouteName = entity.RouteName,
@@ -130,6 +178,7 @@ namespace SystemManagement.AppService.SystemMenus
                 GuidGenerator.Create(),
                 input.MenuName,
                 input.MenuPath,
+                input.MenuType,
                 input.Icon,
                 input.PermissionKey,
                 input.RouteName,
