@@ -61,6 +61,19 @@ namespace SystemManagement.HttpApi.SystemMenus
             return systemMenuAppService.CreateSystemMenuAsync(input, HttpContext.RequestAborted);
         }
 
+
+        /// <summary>
+        /// 更新菜单内容
+        /// </summary>
+        /// <param name="systemMenuDto"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public  Task<bool> UpdateSystemMenuAsync(SystemMenuDto systemMenuDto)
+        {
+            return  systemMenuAppService.UpdateSystemMenuAsync(systemMenuDto, HttpContext.RequestAborted);
+        }
+
         /// <summary>
         /// 删除菜单内容
         /// </summary>

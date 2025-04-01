@@ -30,7 +30,7 @@ namespace SystemManagement.AppService.SystemMenus.Dtos
         /// <summary>
         /// 子菜单
         /// </summary>
-        public CreateSystemMenuInputDto[] Childrens { get; set; }
+        public List<CreateSystemMenuInputDto> Childrens { get; set; }
     }
 
     public class CreateSystemMenuInputDtoValidator : AbstractValidator<CreateSystemMenuInputDto>

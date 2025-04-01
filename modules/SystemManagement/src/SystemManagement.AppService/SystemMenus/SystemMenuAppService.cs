@@ -31,6 +31,14 @@ namespace SystemManagement.AppService.SystemMenus
         Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input, CancellationToken cancellationToken);
 
         /// <summary>
+        /// 更新菜单内容
+        /// </summary>
+        /// <param name="systemMenuDto"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> UpdateSystemMenuAsync(SystemMenuDto systemMenuDto,CancellationToken cancellationToken);
+
+        /// <summary>
         /// 删除菜单内容
         /// </summary>
         /// <param name="id"></param>
@@ -52,17 +60,18 @@ namespace SystemManagement.AppService.SystemMenus
         public async Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input, CancellationToken cancellationToken)
         {
             var queryable = (await systemMenuRepository.GetQueryableAsync())
+                .Include(x => x.SubMenus)
+                .ThenInclude(x => x.SubMenus)
                 .AsNoTracking()
-                .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName))
-                .WhereIf(!string.IsNullOrEmpty(input.MenuPath), x => x.MenuPath.Contains(input.MenuPath));
+                .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName));
 
-            var entity = await queryable.ToListAsync(cancellationToken);
 
-            var entityPart = entity.Where(x => x.ParentId == null).ToList();
-            if (entity.Count > 0 && entityPart.Count > 0)
+            var entity = await queryable.Where(x => x.ParentId != null).ToListAsync(cancellationToken);
+
+            if (entity.Count > 0 && entity.Count > 0)
             {
                 List<SystemMenuDto> systemMenuDtos = new List<SystemMenuDto>();
-                foreach (var systemMenu in entityPart)
+                foreach (var systemMenu in entity)
                 {
                     systemMenuDtos.Add(SystemMenuSumMenusList(systemMenu));
                 }
@@ -160,7 +169,7 @@ namespace SystemManagement.AppService.SystemMenus
                 {
                     systemMenuDtos.Add(SystemMenuSumMenusList(item));
                 }
-                sysMenuDto.SubMenus = systemMenuDtos;
+                sysMenuDto.Childrens = systemMenuDtos;
             }
             return sysMenuDto;
         }
@@ -192,7 +201,7 @@ namespace SystemManagement.AppService.SystemMenus
                 systemMenu.ChangeParentMenuId(parent.Id);
             }
 
-            if (input.Childrens.Length > 0)
+            if (input.Childrens.Count > 0)
             {
                 foreach (var child in input.Childrens)
                 {
@@ -203,6 +212,24 @@ namespace SystemManagement.AppService.SystemMenus
 
             return systemMenu;
         }
+
+        /// <summary>
+        /// 更新菜单内容
+        /// </summary>
+        /// <param name="systemMenuDto"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateSystemMenuAsync(SystemMenuDto systemMenuDto, CancellationToken cancellationToken)
+        {
+
+            System_Menu system_Menu = new System_Menu(systemMenuDto.Id,
+                systemMenuDto.MenuName,systemMenuDto.MenuPath,systemMenuDto.MenuType,
+                systemMenuDto.Icon,systemMenuDto.PermissionKey,systemMenuDto.RouteName,
+                systemMenuDto.ComponentPath,systemMenuDto.OrderIndex,systemMenuDto.Remark);
+            await systemMenuRepository.UpdateAsync(system_Menu);
+            return true;
+        }
+
 
         /// <summary>
         /// 删除方法
