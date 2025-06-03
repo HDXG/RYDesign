@@ -8,7 +8,7 @@ namespace SystemManagement.Infrastructure.Repositories
 {
     public class SystemManagmentRepository<TEntity, TKey>
         (IDbContextProvider<SystemManagementDbContext> dbContextProvider) :
-        RYDesignEfCoreRepository<SystemManagementDbContext, TEntity, TKey>(dbContextProvider),
+        RYDesignRepository<SystemManagementDbContext, TEntity, TKey>(dbContextProvider),
         ISystemManagmentRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
     {

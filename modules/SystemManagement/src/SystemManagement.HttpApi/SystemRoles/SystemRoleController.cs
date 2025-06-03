@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RYDesign.AspNetCore;
 using SystemManagement.AppService.SystemRoles;
-using SystemManagement.AppService.SystemRoles.Dtos;
+using SystemManagement.AppService.SystemRoles.Dtos.Request;
+using SystemManagement.AppService.SystemRoles.Dtos.Response;
 using SystemManagement.Domain;
 
 namespace SystemManagement.HttpApi.SystemRoles

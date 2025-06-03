@@ -1,6 +1,6 @@
 ﻿using RYDesign.Application.Contracts.Dtos;
 
-namespace SystemManagement.AppService.SystemRoles.Dtos
+namespace SystemManagement.AppService.SystemRoles.Dtos.Request
 {
     public class GetSystemRolePagedListRequest:RYPagedRequestDto
     {

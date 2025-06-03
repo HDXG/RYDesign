@@ -9,7 +9,7 @@ using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 namespace Design.EntityFrameworkCore.Repositories
 {
-    public abstract class RYDesignEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<TDbContext> dbContextProviders) : EfCoreRepository<TDbContext, TEntity, TKey>(dbContextProviders), IRYDesignRepository<TEntity, TKey> where TDbContext : IRYDesignEfCoreContext where TEntity : class, IEntity<TKey>
+    public abstract class RYDesignRepository<TDbContext, TEntity, TKey>(IDbContextProvider<TDbContext> dbContextProviders) : EfCoreRepository<TDbContext, TEntity, TKey>(dbContextProviders), IRYDesignRepository<TEntity, TKey> where TDbContext : IRYDesignEfCoreContext where TEntity : class, IEntity<TKey>
     {
         public async Task<TEntity> GetIncludeAsync(Expression<Func<TEntity, bool>> wherePredicate, Expression<Func<TEntity, IEnumerable<TEntity>>> includePredicate, CancellationToken cancellationToken)
         {

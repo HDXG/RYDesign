@@ -36,6 +36,13 @@ namespace SystemManagement.Infrastructure.EntityFrameworkCore
             {
                 a.ToTable("SystemRole", SystemManagemementConsts.DbSchemaName);
                 a.HasKey(c => c.Id);
+                a.HasMany(c=>c.System_RoleMenus).WithOne().HasForeignKey("RoleId").OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<System_RoleMenu>(a =>
+            {
+                a.ToTable("SystemRoleMenu", SystemManagemementConsts.DbSchemaName);
+                a.HasKey(c => new { c.RoleId, c.MenuId });
             });
 
             builder.Entity<System_Menu>(a =>

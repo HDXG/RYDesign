@@ -75,5 +75,24 @@ namespace SystemManagement.Domain.SystemRoles
         public DateTime CreateTime { get; set; }
 
 
+
+        public ICollection<System_RoleMenu> System_RoleMenus { get; set; } = new List<System_RoleMenu>();
+
+        public void AddSystem_RoleMenu(System_RoleMenu system_RoleMenu)
+        {
+            System_RoleMenus.Add(system_RoleMenu);
+        }
+
+        public void RemoveSystem_RoleMenu(System_RoleMenu system_RoleMenu)
+        {
+            System_RoleMenus.Remove(system_RoleMenu);
+        }
+
+        public void ClearSystem_RoleMenu()
+        {
+            System_RoleMenus.Clear();
+        }
+
+
     }
 }

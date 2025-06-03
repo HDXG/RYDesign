@@ -59,24 +59,32 @@ namespace SystemManagement.AppService.SystemMenus
         /// <returns></returns>
         public async Task<GetSystemMenuListResponse> GetSystemMenuListAsync(GetSystemMenuListInputDto input, CancellationToken cancellationToken)
         {
-            var queryable = (await systemMenuRepository.GetQueryableAsync())
-                .Include(x => x.SubMenus)
-                .ThenInclude(x => x.SubMenus)
+            var queryable = await (await systemMenuRepository.GetQueryableAsync())
                 .AsNoTracking()
-                .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName));
+                .Include(x=>x.SubMenus)
+                .ThenInclude(x=>x.SubMenus)
+                .WhereIf(!string.IsNullOrEmpty(input.MenuName), x => x.MenuName.Contains(input.MenuName))
+                .ToListAsync();
+
+            var entity = queryable.Where(x=>x.ParentId == null || x.ParentId == Guid.Empty).ToList();
+            //if(queryable.Count > 0 && !string.IsNullOrEmpty(input.MenuName))
+            //{
+            //    entity = queryable;
+            //}
 
 
-            var entity = await queryable.Where(x => x.ParentId != null).ToListAsync(cancellationToken);
-
-            if (entity.Count > 0 && entity.Count > 0)
+            if (entity.Count > 0)
             {
+                
                 List<SystemMenuDto> systemMenuDtos = new List<SystemMenuDto>();
+
                 foreach (var systemMenu in entity)
                 {
                     systemMenuDtos.Add(SystemMenuSumMenusList(systemMenu));
                 }
-                int count = systemMenuDtos.Count;
 
+                int count = systemMenuDtos.Count;
+                
                 return new GetSystemMenuListResponse()
                 {
                     Items = systemMenuDtos.Skip(input.SkipCount).Take(input.MaxResultCount).ToList(),
@@ -103,6 +111,7 @@ namespace SystemManagement.AppService.SystemMenus
                 .Include(x => x.SubMenus)
                 .ThenInclude(x=> x.SubMenus)
                 .OrderBy(x => x.OrderIndex)
+                .Where(x => x.ParentId==null || x.ParentId == Guid.Empty)
                 .ToListAsync();
             return GetSystemMenuTreeResponseDto(queryable);
         }
@@ -169,19 +178,19 @@ namespace SystemManagement.AppService.SystemMenus
                 {
                     systemMenuDtos.Add(SystemMenuSumMenusList(item));
                 }
-                sysMenuDto.Childrens = systemMenuDtos;
+                sysMenuDto.children = systemMenuDtos;
             }
             return sysMenuDto;
         }
 
         public async Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input, CancellationToken cancellationToken)
         {
-            var systemMenu = CreateSystemMenu(input, null);
+            var systemMenu = CreateSystemMenu(input);
             await systemMenuRepository.InsertAsync(systemMenu);
             return true;
         }
 
-        private System_Menu CreateSystemMenu(CreateSystemMenuInputDto input, System_Menu? parent)
+        private System_Menu CreateSystemMenu(CreateSystemMenuInputDto input)
         {
             var systemMenu = new System_Menu(
                 GuidGenerator.Create(),
@@ -195,17 +204,16 @@ namespace SystemManagement.AppService.SystemMenus
                 input.OrderIndex,
                 input.Remark
             );
-
-            if (parent != null)
+            if (input.ParentId != null)
             {
-                systemMenu.ChangeParentMenuId(parent.Id);
+                systemMenu.ChangeParentMenuId(input.ParentId);
             }
 
             if (input.Childrens.Count > 0)
             {
                 foreach (var child in input.Childrens)
                 {
-                    var subSystemMenu = CreateSystemMenu(child, systemMenu);
+                    var subSystemMenu = CreateSystemMenu(child);
                     systemMenu.AddSubMenu(subSystemMenu);
                 }
             }
@@ -226,6 +234,11 @@ namespace SystemManagement.AppService.SystemMenus
                 systemMenuDto.MenuName,systemMenuDto.MenuPath,systemMenuDto.MenuType,
                 systemMenuDto.Icon,systemMenuDto.PermissionKey,systemMenuDto.RouteName,
                 systemMenuDto.ComponentPath,systemMenuDto.OrderIndex,systemMenuDto.Remark);
+            //如果父级ID和当前ID不相同，则需要更新
+            if (systemMenuDto.ParentId != systemMenuDto.Id)
+            {
+                system_Menu.ChangeParentMenuId(systemMenuDto.ParentId);
+            }
             await systemMenuRepository.UpdateAsync(system_Menu);
             return true;
         }

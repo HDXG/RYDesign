@@ -11,7 +11,7 @@ namespace SystemManagement.Infrastructure.Repositories.SystemMenus
 
     }
 
-    public class SysetemMenuRepository(IDbContextProvider<SystemManagementDbContext> dbContextProvider):RYDesignEfCoreRepository<SystemManagementDbContext, System_Menu, Guid>(dbContextProvider), ISysetemMenuRepository
+    public class SysetemMenuRepository(IDbContextProvider<SystemManagementDbContext> dbContextProvider):RYDesignRepository<SystemManagementDbContext, System_Menu, Guid>(dbContextProvider), ISysetemMenuRepository
     {
 
     }

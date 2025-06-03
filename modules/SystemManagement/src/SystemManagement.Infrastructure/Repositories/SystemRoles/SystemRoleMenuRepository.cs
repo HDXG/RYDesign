@@ -6,11 +6,13 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace SystemManagement.Infrastructure.Repositories.SystemRoles
 {
-    public interface ISystemRoleRepository : IRYDesignRepository<System_Role,Guid>
+    public interface ISystemRoleMenuRepository: IRYDesignRepository<System_RoleMenu, Guid>
     {
+
     }
-    public class SystemRoleRepository(IDbContextProvider<SystemManagementDbContext>dbContextProvider)
-        :RYDesignRepository<SystemManagementDbContext,System_Role,Guid>(dbContextProvider), ISystemRoleRepository
+
+
+    public class SystemRoleMenuRepository(IDbContextProvider<SystemManagementDbContext> dbContextProvider):RYDesignRepository<SystemManagementDbContext,System_RoleMenu, Guid>(dbContextProvider),ISystemRoleMenuRepository
     {
 
     }

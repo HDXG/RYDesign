@@ -65,6 +65,6 @@ namespace SystemManagement.AppService.SystemMenus.Dtos
         /// </summary>
         public bool IsStatus { get; set; }
 
-        public List<SystemMenuDto> Childrens { get; set; } = new List<SystemMenuDto>();
+        public List<SystemMenuDto> children { get; set; } = new List<SystemMenuDto>();
     }
 }
